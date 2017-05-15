@@ -36,15 +36,6 @@ acl purge {
   "::1";
 }
 
-/*
-acl editors {
-  # ACL to honor the "Cache-Control: no-cache" header to force a refresh but only from selected IPs
-  "localhost";
-  "127.0.0.1";
-  "::1";
-}
-*/
-
 sub vcl_init {
   # Called when VCL is loaded, before any requests pass through it.
   # Typically used to initialize VMODs.
@@ -154,13 +145,13 @@ sub vcl_recv {
   }
 
   if (req.http.Cache-Control ~ "(?i)no-cache") {
-  #if (req.http.Cache-Control ~ "(?i)no-cache" && client.ip ~ editors) { # create the acl editors if you want to restrict the Ctrl-F5
-  # http://varnish.projects.linpro.no/wiki/VCLExampleEnableForceRefresh
-  # Ignore requests via proxy caches and badly behaved crawlers
-  # like msnbot that send no-cache with every request.
-    if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge)) {
-      #set req.hash_always_miss = true; # Doesn't seems to refresh the object in the cache
-      return(purge); # Couple this with restart in vcl_purge and X-Purge header to avoid loops
+    if (client.ip ~ purge) {
+      # Ignore requests via proxy caches and badly behaved crawlers
+      # like msnbot that send no-cache with every request.
+      if (! (req.http.Via || req.http.User-Agent ~ "(?i)bot" || req.http.X-Purge)) {
+        #set req.hash_always_miss = true; # Doesn't seems to refresh the object in the cache
+        return(purge); # Couple this with restart in vcl_purge and X-Purge header to avoid loops
+      }
     }
   }
 
