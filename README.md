@@ -30,6 +30,4 @@ Basic troubleshooting:
 * [Reload Varnish VCL without losing cache data](https://ma.ttias.be/reload-varnish-vcl-without-losing-cache-data/)
 * [Combine Apache'S HTTP authentication with Varnish IP whitelisting](https://ma.ttias.be/apache-http-authentication-with-x-forwarded-for-ip-whitelisting-in-varnish/)
 
-[Click here for a Varnish 3 VCL config template](https://github.com/mattiasgeniar/varnish-3.0-configuration-templates)
-
-[Click here for a Varnish 4 VCL config template](https://github.com/mattiasgeniar/varnish-4.0-configuration-templates)
+There is already a newer version out: [Varnish 6 VCL config template](https://github.com/mattiasgeniar/varnish-6.0-configuration-templates).
