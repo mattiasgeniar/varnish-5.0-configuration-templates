@@ -67,7 +67,7 @@ sub vcl_recv {
   if (req.method == "PURGE") {
     if (!client.ip ~ purge) { # purge is the ACL defined at the begining
       # Not from an allowed IP? Then die with an error.
-      return (synth(405, "This IP is not allowed to send PURGE requests."));
+      return (synth(405, "IP: " + client.ip  +  " is not allowed to send PURGE requests."));
     }
     # If you got this stage (and didn't error out above), purge the cached result
     return (purge);
